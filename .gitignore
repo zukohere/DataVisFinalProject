@@ -1,3 +1,6 @@
+# training dataset
+training.1600000.processed.noemoticon.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
