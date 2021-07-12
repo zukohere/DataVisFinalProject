@@ -7,19 +7,42 @@ function getTextWidth(text, font) {
   return metrics.width;
 }
 
+//https://stackoverflow.com/questions/7128675/from-green-to-red-color-depend-on-percentage
+function getGreenToRed(percent){
+  r = percent<50 ? 255 : Math.floor(255-(percent*2-100)*255/100);
+  g = percent>50 ? 255 : Math.floor((percent*2)*255/100);
+  return 'rgb('+r+','+g+',0)';
+}
 
 function dataChanged(stock_name) {
-  d3.json(`/stock-page/${stock_name}`).then(function (data) {
+  
+  // FIinal
+  // d3.json(`/stock-page/${stock_name}`).then(function (data) {
+  //
+
+  // Static test
+  d3.json("../jsonsample.txt").then(function (data) {
+  //
+
     //clear the visualization and the list if existing
     d3.select("#wordcloud").html("")
     d3.select("#wordcloud_news").html("")
+    d3.select("#wordcloud_sentiment").html("")
     // get data and create wordcloud
     // Promise Pending
-    const dataPromise = d3.json(`/stock-page/${stock_name}`);
+    
+    // Final
+    // const dataPromise = d3.json(`/stock-page/${stock_name}`);
+    //
+
+    //Static test
+    const dataPromise = d3.json("../jsonsample.txt");
+    //
+
     console.log("Data Promise: ", dataPromise);
 
     // Sort and use only the top 50 words
-    var filteredData = data.sort((a, b) => b.Counts - a.Counts).slice(0, 50)
+    var filteredData = data[0].cloudData.sort((a, b) => b.Counts - a.Counts).slice(0, 50)
 
     // create a linear scale to limit font size choices for the word cloud
     var wordSize = d3.scaleLinear()
@@ -62,7 +85,9 @@ function dataChanged(stock_name) {
         return {
           text: d.Words,
           size: wordSize(d.Counts),
-          pos: d.POS, links: d.links
+          pos: d.POS, 
+          links: d.links,
+          wordScore: d.WordScore
         };
       }))
       .padding(2.5)        //space between words
@@ -82,9 +107,9 @@ function dataChanged(stock_name) {
         .data(words)
         .enter().append("text")
         .style("font-size", function (d) { return d.size; })
-        .style("fill", function (d) { return colorList[~~(Math.random() * colorList.length)] })
+        .style("fill", function (d) { return getGreenToRed(d.wordScore*100)})
         .attr("stroke", "black")
-        .attr("stroke-width", 0.5)
+        .attr("stroke-width", 0.85)
         .attr("text-anchor", "start")
         .attr("dominant-baseline", "hanging") // to get rectangles and text to rotate same
         .style("font-family", "Impact")
@@ -112,15 +137,19 @@ function dataChanged(stock_name) {
             `Word: <strong>${d.text}</strong> <br>
             
             Occurrences: ${d.size}<br>
+            Positive vs. Negative Mentions: ${(d.wordScore* 100).toFixed(2)}%<br>
             Headlines: <br>`)
           // Part of Speech: ${d.pos}<br> // to be added if including other parts of speech
 
           Object.entries(d.links).forEach(([key, value]) => {
             var option = d3.select("#wordcloud_news").append("ul");
             var item = option.append("li");
-            item.html(`<a href="https://${value}">${key} </a>`);
+            item.html(`<a href="https://${value[0]}">[${value[1]}] ${key}  </a>`);
           })
+          
         })
+        d3.select("#wordcloud_sentiment").html(
+          `Overall Article Positivity: <strong>${(data[0].Pos_Neg* 100).toFixed(2)}%</strong>`) 
     }
   })
 }

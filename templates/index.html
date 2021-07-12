@@ -28,6 +28,7 @@
         <li>
           <select id="selDataset" onchange="dataChanged(this.value)">
             <option value="" >S&P 500 Stock Companies (select one)</option>
+            <option value="AMZN" >AMZN TEST</option>
             {% for val in list %}
             <option value={{ val.symbol }} >{{ val.name }}</option>
             {% endfor %}
@@ -71,7 +72,8 @@
       <div class="col-md-12">
         <h1 id="main_title">Latest News - Select a stock to generate Word Cloud based on news headlines and blurbs about the stock.</h1>
         <h2 id="sub_title">Click on any generated word to display links to news articles where that word appears. </h1>
-        <div id="wordcloud"></div>
+      <div id="wordcloud_sentiment"></div>
+      <div id="wordcloud"></div>
       <div id="wordcloud_news"></div>
       </div>
 
