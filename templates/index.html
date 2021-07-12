@@ -3,65 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" type="image/png" href="static/Resources/logo_gs_black.png" />
-  <title>Greener Stocks</title>
+  <title>Stock Sentiment</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" type="text/css" href="../static/style.css">
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
 
-    <a class="navbar-brand" href="https://ksheekey.github.io/Project_2/index.html"><img src="static/Resources/logo_gs_color.png" id="stock_logo"
-        alt="Greener Stocks"></a>
-
-    <!-- Sintax to create the hamburger -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-
-        <li>
-          <select id="selDataset" onchange="dataChanged(this.value)">
-            <option value="" >S&P 500 Stock Companies (select one)</option>
-            <option value="AMZN" >AMZN TEST</option>
-            {% for val in list %}
-            <option value={{ val.symbol }} >{{ val.name }}</option>
-            {% endfor %}
-          </select>
-        </li>
-      
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            All Charts
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="https://ksheekey.github.io/Project_2/html_files/candlestick.html">Candlestick</a>
-            <a class="dropdown-item" href="https://ksheekey.github.io/Project_2/html_files/predictions.html">Predictions</a>
-            <a class="dropdown-item" href="https://ksheekey.github.io/Project_2/html_files/predictions_bc.html">Predictions by % Change</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://ksheekey.github.io/Project_2/html_files/tree_map.html">Tree Map</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://greener-stocks-words.herokuapp.com/">News WC</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://ksheekey.github.io/Project_2/html_files/data.html">Data</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://ksheekey.github.io/Project_2/html_files/who_we_are.html">Who we are</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
 
 
 
@@ -70,25 +19,50 @@
     <!-- Row0 -->
     <section class="row">
       <div class="col-md-12">
-        <h1 id="main_title">Latest News - Select a stock to generate Word Cloud based on news headlines and blurbs about the stock.</h1>
-        <h2 id="sub_title">Click on any generated word to display links to news articles where that word appears. </h1>
-      <div id="wordcloud_sentiment"></div>
-      <div id="wordcloud"></div>
-      <div id="wordcloud_news"></div>
-      </div>
-
-
+        <h1><center>Word Cloud of S&P 500 News with Sentiment Analysis</center>
+        </h1>
+        <h2>Select a stock and click on any word in the cloud to display links to news articles where it
+          appears and the article's sentiment.
+          Words are colorized based on usage positivity (green) or negativity (red).</h2>
+        <center>
+          <select id="selDataset" onchange="dataChanged(this.value)">
+            <option value="">S&P 500 Stock Companies (select one)</option>
+            <option value="AMZN">AMZN TEST</option>
+            {% for val in list %}
+            <option value={{ val.symbol }}>{{ val.name }}</option>
+            {% endfor %}
+          </select>
+        </center>
     </section>
+    <div id="wordcloud_sentiment"></div>
+  
+  <section class="row">
+    <div class="col-md-6">
+      <div class="wrap">
+      <div id="wordcloud">
+      </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+      <br>
+      <br>
+      <div id="wordcloud_news"></div>
+    </div>
+
+    </div>
+
+
+  </section>
 
 
 
 
-  </div>
-<!-- WordCloud -->
-<script src="https://d3js.org/d3.v5.min.js"></script> 
-<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
-<script src="../static/js/wordcloud.js"></script>
-<!-- End WordCloud -->
+
+  <!-- WordCloud -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+  <script src="../static/js/wordcloud.js"></script>
+  <!-- End WordCloud -->
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

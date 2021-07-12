@@ -1,19 +1,13 @@
-#stock_logo{
-height: 50px;
-width: 100px;
-float: left; 
-margin-left: 10px;
-margin-right: 20px;
 
-}
-
-.navbar{
-    height: 50px;
-}
-
-#navbarSupportedContent{
-    
-    margin-right: 20px;
+.wrap {
+    position: relative;
+    width: 475px;
+    height: 510px;
+    margin-top: 45px;
+    overflow: hidden;
+    border-radius: 25px;
+    border: 3px solid black;
+    box-sizing: border-box;
 }
 
 
@@ -22,66 +16,17 @@ body{
     position: relative;
 }
 
-#who-we-are{
-    height: 140px;
-width: 140px;
 
-}
-
-#who-we-p{
-    text-align: center;
-      font-size: 24px;
-}
-
-#main_title{
+h1{
     text-align: center;
     color:rgb(20, 97, 55);
     margin-bottom: 10px;
     font-size: 48px;
 }
-h1{
-    font-family:Arial, Helvetica, sans-serif;
-    font-size: 24px;
-    text-align: center;
-}
 
 h2{
     font-family:Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    color:rgb(236, 247, 236);
+    font-size: 20px;
+    color:black;
     text-align: center
 }
-
-#candle{
-    margin-left: 10px;
-}
-
-#decision{
-height: 100px;
-width: 120px;
-}
-#square {
-height: 600px;
-width: 550px;
-float: center; 
-margin-left: 10px;
-margin-right: 20px;
-}
-
-#static_line{
-    height: 200px;
-    width: 800px;
-}
-
-#column2{
-    float: center;
-
-
-}
-#v-temp {
-    height: 170px;
-    width: 170px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-
-    }

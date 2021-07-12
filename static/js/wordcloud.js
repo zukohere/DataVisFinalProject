@@ -45,9 +45,9 @@ function dataChanged(stock_name) {
     var filteredData = data[0].cloudData.sort((a, b) => b.Counts - a.Counts).slice(0, 50)
 
     // create a linear scale to limit font size choices for the word cloud
-    var wordSize = d3.scaleLinear()
+    var wordSize = d3.scaleSqrt()
       .domain(d3.extent(filteredData.map(d => d.Counts)))
-      .range([12, 50])
+      .range([15, 50])
     // Create a list of possible colors for the words in the cloud.
     var colorList = ["Blue",
       "Red",
@@ -65,14 +65,16 @@ function dataChanged(stock_name) {
       "Black",
     ]
     // set the dimensions and margins of the graph
-    var margin = { top: 10, right: 10, bottom: 10, left: 10 },
-      width = 1100 - margin.left - margin.right,
-      height = 600 - margin.top - margin.bottom;
+    var margin = { top: 0, right: 0, bottom: 0, left: 0 },
+      width = 475 - margin.left - margin.right,
+      height = 475 - margin.top - margin.bottom;
 
     // // append the svg object to the body of the page
     var svg = d3.select("#wordcloud").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
+      // .attr("viewBox", [0, 0, (width + margin.right + margin.left),
+        // (height + margin.top + margin.bottom)].join(' '))
       .append("g")
       .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
@@ -102,14 +104,14 @@ function dataChanged(stock_name) {
     function draw(words) {
       svg
         .append("g")
-        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2.25 + ")")
         .selectAll("text")
         .data(words)
         .enter().append("text")
         .style("font-size", function (d) { return d.size; })
         .style("fill", function (d) { return getGreenToRed(d.wordScore*100)})
-        .attr("stroke", "black")
-        .attr("stroke-width", 0.85)
+        .attr("stroke", "gray")
+        .attr("stroke-width", 1)
         .attr("text-anchor", "start")
         .attr("dominant-baseline", "hanging") // to get rectangles and text to rotate same
         .style("font-family", "Impact")
@@ -121,7 +123,7 @@ function dataChanged(stock_name) {
       console.log(words)
       svg
         .append("g")
-        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2.25 + ")")
         .selectAll("dot")
         .data(words)
         .enter().append("rect")
@@ -137,7 +139,7 @@ function dataChanged(stock_name) {
             `Word: <strong>${d.text}</strong> <br>
             
             Occurrences: ${d.size}<br>
-            Positive vs. Negative Mentions: ${(d.wordScore* 100).toFixed(2)}%<br>
+            Positive vs. Negative Mentions: ${(d.wordScore* 100).toFixed(0)}%<br>
             Headlines: <br>`)
           // Part of Speech: ${d.pos}<br> // to be added if including other parts of speech
 
@@ -149,7 +151,7 @@ function dataChanged(stock_name) {
           
         })
         d3.select("#wordcloud_sentiment").html(
-          `Overall Article Positivity: <strong>${(data[0].Pos_Neg* 100).toFixed(2)}%</strong>`) 
+          `Overall Article Positivity: <strong>${(data[0].Pos_Neg* 100).toFixed(0)}%</strong>`) 
     }
   })
 }
