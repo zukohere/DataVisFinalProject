@@ -154,7 +154,7 @@ function dataChanged(stock_name) {
             var item = option.append("li");
             item.html(`<${value[1]}>[${value[1]}] <a href="https://${value[0]}">${key}  </a>`);
           })
-          d3.select("#wordcloud_news").append("br")
+          
         })
       d3.select("#wordcloud_sentiment").html("")
       d3.select("#wordcloud_sentiment").html(
