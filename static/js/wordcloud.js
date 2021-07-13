@@ -8,30 +8,33 @@ function getTextWidth(text, font) {
 }
 
 //https://stackoverflow.com/questions/7128675/from-green-to-red-color-depend-on-percentage
-function getGreenToRed(percent){
-  r = percent<50 ? 255 : Math.floor(255-(percent*2-100)*255/100);
-  g = percent>50 ? 255 : Math.floor((percent*2)*255/100);
-  return 'rgb('+r+','+g+',0)';
+// creates a green to red gradient (based on the Word Score of usage in positive conext vs pos/neg)
+function getGreenToRed(percent) {
+  r = percent < 50 ? 255 : Math.floor(255 - (percent * 2 - 100) * 255 / 100);
+  g = percent > 50 ? 255 : Math.floor((percent * 2) * 255 / 100);
+  return 'rgb(' + r + ',' + g + ',0)';
 }
 
 function dataChanged(stock_name) {
+  // Display text to let the user know dataset is being generated.
   d3.select("#wordcloud_sentiment").html(
     `Processing...`)
+  //clear the visualization and the list if existing
+  d3.select("#wordcloud").html("")
+  d3.select("#wordcloud_news").html("")
+
+  ///////////////////DATA VISUALIZATION/////////////////
   // Final
   d3.json(`/stock-page/${stock_name}`).then(function (data) {
-  //
+    //
 
-  // Static test
-  // d3.json("../jsonsample.txt").then(function (data) {
-  //
+    // Static test
+    // d3.json("../jsonsample.txt").then(function (data) {
+    //
 
-    //clear the visualization and the list if existing
-    d3.select("#wordcloud").html("")
-    d3.select("#wordcloud_news").html("")
-    
     // get data and create wordcloud
     // Promise Pending
-    
+
     // Final
     const dataPromise = d3.json(`/stock-page/${stock_name}`);
     //
@@ -49,39 +52,40 @@ function dataChanged(stock_name) {
     var wordSize = d3.scaleSqrt()
       .domain(d3.extent(filteredData.map(d => d.Counts)))
       .range([15, 50])
-    // Create a list of possible colors for the words in the cloud.
-    var colorList = ["Blue",
-      "Red",
-      "Maroon",
-      // "Yellow",
-      "Olive",
-      "Lime",
-      "Green",
-      "Aqua",
-      "Teal",
-      "Navy",
-      "Fuchsia",
-      "Purple",
-      "lightgray",
-      "Black",
-    ]
-    // set the dimensions and margins of the graph
+    // For testing. Create a list of possible colors for the words in the cloud.
+    // var colorList = ["Blue",
+    //   "Red",
+    //   "Maroon",
+    //   // "Yellow",
+    //   "Olive",
+    //   "Lime",
+    //   "Green",
+    //   "Aqua",
+    //   "Teal",
+    //   "Navy",
+    //   "Fuchsia",
+    //   "Purple",
+    //   "lightgray",
+    //   "Black",
+    // ]
+
+    // set the dimensions and margins of the graphic
     var margin = { top: 0, right: 0, bottom: 0, left: 0 },
       width = 475 - margin.left - margin.right,
       height = 475 - margin.top - margin.bottom;
-    
+
     // // append the svg object to the body of the page
     var svg = d3.select("#wordcloud").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       // .attr("viewBox", [0, 0, (width + margin.right + margin.left),
-        // (height + margin.top + margin.bottom)].join(' '))
+      // (height + margin.top + margin.bottom)].join(' '))
       .append("g")
       .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")")
       ;
 
-    // // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
+    // // Constructs a new cloud layout instance. It runs an algorithm to find the position of words that suits requirements
     // // Wordcloud features that are different from one word to the other must be here
     var layout = d3.layout.cloud()
       .size([width, height])
@@ -89,7 +93,7 @@ function dataChanged(stock_name) {
         return {
           text: d.Words,
           size: wordSize(d.Counts),
-          pos: d.POS, 
+          pos: d.POS,
           links: d.links,
           wordScore: d.WordScore
         };
@@ -111,7 +115,7 @@ function dataChanged(stock_name) {
         .data(words)
         .enter().append("text")
         .style("font-size", function (d) { return d.size; })
-        .style("fill", function (d) { return getGreenToRed(d.wordScore*100)})
+        .style("fill", function (d) { return getGreenToRed(d.wordScore * 100) })
         .attr("stroke", "black")
         .attr("stroke-width", 1.5)
         .attr("text-anchor", "start")
@@ -141,20 +145,20 @@ function dataChanged(stock_name) {
             `Word: <strong>${d.text}</strong> <br>
             
             Occurrences: ${d.size}<br>
-            Positive vs. Negative Mentions: ${(d.wordScore* 100).toFixed(0)}%<br>
+            Positive vs. Total Mentions: ${(d.wordScore * 100).toFixed(0)}%<br>
             Headlines: <br>`)
-          // Part of Speech: ${d.pos}<br> // to be added if including other parts of speech
+          
 
           Object.entries(d.links).forEach(([key, value]) => {
             var option = d3.select("#wordcloud_news").append("ul");
             var item = option.append("li");
-            item.html(`<${value[1]}>[${value[1]}]<a href="https://${value[0]}">${key}  </a>`);
+            item.html(`<${value[1]}>[${value[1]}] <a href="https://${value[0]}">${key}  </a>`);
           })
-          
+
         })
-        d3.select("#wordcloud_sentiment").html("")
-        d3.select("#wordcloud_sentiment").html(
-          `Overall Article Positivity: <strong>${(data[0].Pos_Neg* 100).toFixed(0)}%</strong>`) 
+      d3.select("#wordcloud_sentiment").html("")
+      d3.select("#wordcloud_sentiment").html(
+        `Overall Article Positivity: <strong>${(data[0].Pos_Neg * 100).toFixed(0)}%</strong>`)
     }
   })
 }
