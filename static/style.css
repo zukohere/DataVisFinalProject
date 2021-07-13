@@ -30,3 +30,11 @@ h2{
     color:black;
     text-align: center
 }
+
+Positive{
+    color: green
+}
+
+Negative{
+    color: red
+}

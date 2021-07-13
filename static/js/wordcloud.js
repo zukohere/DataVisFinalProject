@@ -15,28 +15,29 @@ function getGreenToRed(percent){
 }
 
 function dataChanged(stock_name) {
-  
-  // FIinal
-  // d3.json(`/stock-page/${stock_name}`).then(function (data) {
+  d3.select("#wordcloud_sentiment").html(
+    `Processing...`)
+  // Final
+  d3.json(`/stock-page/${stock_name}`).then(function (data) {
   //
 
   // Static test
-  d3.json("../jsonsample.txt").then(function (data) {
+  // d3.json("../jsonsample.txt").then(function (data) {
   //
 
     //clear the visualization and the list if existing
     d3.select("#wordcloud").html("")
     d3.select("#wordcloud_news").html("")
-    d3.select("#wordcloud_sentiment").html("")
+    
     // get data and create wordcloud
     // Promise Pending
     
     // Final
-    // const dataPromise = d3.json(`/stock-page/${stock_name}`);
+    const dataPromise = d3.json(`/stock-page/${stock_name}`);
     //
 
     //Static test
-    const dataPromise = d3.json("../jsonsample.txt");
+    // const dataPromise = d3.json("../jsonsample.txt");
     //
 
     console.log("Data Promise: ", dataPromise);
@@ -68,7 +69,7 @@ function dataChanged(stock_name) {
     var margin = { top: 0, right: 0, bottom: 0, left: 0 },
       width = 475 - margin.left - margin.right,
       height = 475 - margin.top - margin.bottom;
-
+    
     // // append the svg object to the body of the page
     var svg = d3.select("#wordcloud").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -77,7 +78,8 @@ function dataChanged(stock_name) {
         // (height + margin.top + margin.bottom)].join(' '))
       .append("g")
       .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+        "translate(" + margin.left + "," + margin.top + ")")
+      ;
 
     // // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
     // // Wordcloud features that are different from one word to the other must be here
@@ -110,8 +112,8 @@ function dataChanged(stock_name) {
         .enter().append("text")
         .style("font-size", function (d) { return d.size; })
         .style("fill", function (d) { return getGreenToRed(d.wordScore*100)})
-        .attr("stroke", "gray")
-        .attr("stroke-width", 1)
+        .attr("stroke", "black")
+        .attr("stroke-width", 1.5)
         .attr("text-anchor", "start")
         .attr("dominant-baseline", "hanging") // to get rectangles and text to rotate same
         .style("font-family", "Impact")
@@ -146,10 +148,11 @@ function dataChanged(stock_name) {
           Object.entries(d.links).forEach(([key, value]) => {
             var option = d3.select("#wordcloud_news").append("ul");
             var item = option.append("li");
-            item.html(`<a href="https://${value[0]}">[${value[1]}] ${key}  </a>`);
+            item.html(`<${value[1]}>[${value[1]}]<a href="https://${value[0]}">${key}  </a>`);
           })
           
         })
+        d3.select("#wordcloud_sentiment").html("")
         d3.select("#wordcloud_sentiment").html(
           `Overall Article Positivity: <strong>${(data[0].Pos_Neg* 100).toFixed(0)}%</strong>`) 
     }

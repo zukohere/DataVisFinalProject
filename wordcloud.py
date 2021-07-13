@@ -7,6 +7,11 @@ def stock_wordcloud(stock_name):
     import spacy
     from bs4 import BeautifulSoup
     import pandas as pd
+    from joblib import dump, load
+    clf = load('sentiment.joblib')
+    
+    #To translate sentiments as 0,1 into English
+    sentdict = {0: "Negative", 1: "Positive"}
 
     # Create a dictionary of stock symbols and company names
 
@@ -27,6 +32,7 @@ def stock_wordcloud(stock_name):
     headlines = []
     descriptions = []
     links = []
+    combined = []
     for result in results:
         try:
             headline = result.find("div", attrs={"class": "vvjwJb"}).get_text()
@@ -39,8 +45,11 @@ def stock_wordcloud(stock_name):
                 # remove the "1 day ago" etc.
                 description = description[description.find("·")+1:]
                 descriptions.append(description)
+            combined.append(headline+" "+description)
         except:
             continue
+    # Add sentiments using the stored model.
+    sentiments = [sentdict[clf.predict([text])[0]] for text in combined]
     # flattens string
     text_h = " ".join(headlines)
     text_p = " ".join(descriptions)
@@ -76,13 +85,22 @@ def stock_wordcloud(stock_name):
              for key in pos_dict.keys()]
 
 
-    # Add headlines and links
+    # Add headlines, links, and sentiment
     for item in words:
         headline_dict = {}
+        sentcount_pos = 0
+        sentcount_neg = 0
         for i in range(len(headlines)-1):
             if item["Words"] in descriptions[i].lower() or item["Words"] in headlines[i].lower():
-                headline_dict[headlines[i]] = links[i]
-        item.update({"links": headline_dict})
-
+                headline_dict[headlines[i]] = [links[i], sentiments[i]]
+                if sentiments[i] == "Negative":
+                    sentcount_neg+=1
+                else:
+                    sentcount_pos+=1
+                word_score = sentcount_pos/(sentcount_pos+sentcount_neg)
+        item.update({"links": headline_dict, "WordScore": word_score})
+    
+    # Add overall positivity rating for stock
+    words = [{"Pos_Neg":sum([clf.predict([text])[0] for text in combined])/len(combined),"cloudData": words}]
     # Send list to be jsonified
     return(words)

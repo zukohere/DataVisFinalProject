@@ -19,7 +19,8 @@
     <!-- Row0 -->
     <section class="row">
       <div class="col-md-12">
-        <h1><center>Word Cloud of S&P 500 News with Sentiment Analysis</center>
+        <h1>
+          <center>Word Cloud of S&P 500 News with Sentiment Analysis</center>
         </h1>
         <h2>Select a stock and click on any word in the cloud to display links to news articles where it
           appears and the article's sentiment.
@@ -27,7 +28,7 @@
         <center>
           <select id="selDataset" onchange="dataChanged(this.value)">
             <option value="">S&P 500 Stock Companies (select one)</option>
-            <option value="AMZN">AMZN TEST</option>
+            <!-- <option value="BAC">BAC TEST</option> -->
             {% for val in list %}
             <option value={{ val.symbol }}>{{ val.name }}</option>
             {% endfor %}
@@ -35,24 +36,24 @@
         </center>
     </section>
     <div id="wordcloud_sentiment"></div>
-  
-  <section class="row">
-    <div class="col-md-6">
-      <div class="wrap">
-      <div id="wordcloud">
+
+    <section class="row">
+      <div class="col-md-6">
+        <div class="wrap">
+          <div id="wordcloud">
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
-    <div class="col-md-6">
-      <br>
-      <br>
-      <div id="wordcloud_news"></div>
-    </div>
+      <div class="col-md-6">
+        <br>
+        <br>
+        <div id="wordcloud_news"></div>
+      </div>
 
-    </div>
+  </div>
 
 
-  </section>
+
 
 
 
