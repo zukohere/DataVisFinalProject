@@ -21,16 +21,16 @@ Tweets from the dataset are expected to be 140 characters long, but using a box 
 
 Cleaning functions were used to handle HTML decoding, mentions with @, URL links, UTF-8 BOM (Byte Order Mark), and hastags/numbers. The post-clean visualization appears as expected.
 
-![Box-post-clean](static\Resources\Box_post-clean.png)
+![Box-post-clean](./static/Resources/Box_post-clean.png)
 
 The sentiment analysis model creation was performed using the sklearn and textblob libraries. The logistical regression model recommended by the literature was not able to achieve convergence. A Multinomial Naive Bayes model was chosen instead, as it may be a good fit for the application (https://scikit-learn.org/stable/modules/naive_bayes.html). The confusion matrix is listed below. And the model is stored as sentiment.joblib to be called later.
 
-![Conf-Matrix](static\Resources\Confusion-Matrix.png)
+![Conf-Matrix](./static/Resources/Confusion-Matrix.png)
 
 ## 2. Data Validation and Exploration. (Jupyter Notebook DataExploration.ipynb)
 Next, a notebook was created to explore the how the model would interpret headlines and blurbs from a google search for a stock symbol. The notebook randomly samples from the would-be complete headline/blurb dataset and writes the sample and sentiments to csv. After all, news articles about stock are not tweets. However, the model was sufficient to partition the headlines/blurbs into positive or negative with some utility.
 
-![Sample-sentiment](static\Resources\Sample-Sentiment.png)
+![Sample-sentiment](./static/Resources/Sample-Sentiment.png)
 
 ## 3. Development of a JSON File for Visualization Development. (Jupyter Notebook jsonFileDevelopment.ipynb)
 To build the visualizaiton, a JSON file was created so that the datasource was static until it was time to build the app framework. The JSON file structure needed the following elements:
@@ -42,4 +42,4 @@ The data was pre-processed using spacy to remove stop words and drill down to on
 ## 4. Flask App Creation and Deployment. (wordcloud.js, wordcloud.py, app.py and others)
 The D3 word cloud is modified from the layout found at https://www.d3-graph-gallery.com/graph/wordcloud_size.html. The app is deployed on heroku. The user can select any stock form the S&P 500 dropdown menu to display a word cloud. Words are sized based on frequency of use and colored based on the how often the sentiment of the articles that they appear in is positive or negative. Clicking any word will list the article links and their respective sentiments to allow the user to continue their research. An overall positivity rating for the stock (ie. how many of its articles are positive out of total) appears above the cloud.
 
-![Screenshot](static\Resources\Screenshot.png)
+![Screenshot](./static/Resources/Screenshot.png)
