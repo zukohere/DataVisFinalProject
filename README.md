@@ -17,7 +17,7 @@ The dataset used to create the model was obtained from http://help.sentiment140.
 
 Tweets from the dataset are expected to be 140 characters long, but using a box plot to visualize character lengths demonstrates this is not the case.
 
-![Box-pre-clean](.\static\Resources\Box_pre-clean.png)
+![Box-pre-clean](./static/Resources/Box_pre-clean.png)
 
 Cleaning functions were used to handle HTML decoding, mentions with @, URL links, UTF-8 BOM (Byte Order Mark), and hastags/numbers. The post-clean visualization appears as expected.
 
