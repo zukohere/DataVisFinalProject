@@ -98,7 +98,7 @@ function dataChanged(stock_name) {
           wordScore: d.WordScore
         };
       }))
-      .padding(2.5)        //space between words
+      .padding(5)        //space between words
       .rotate(function () { return ~~(Math.random() * 2) * 90; })
       .fontSize(function (d) { return d.size; })      // font size of words
       .on("end", draw);
