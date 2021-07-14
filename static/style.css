@@ -39,12 +39,9 @@ Negative{
     color: red
 }
 
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+header {
+    /* padding: 8px; */
+    text-align: center;
     background-color: lightgray;
     color: darkslategray;
-    text-align: center;
   }
