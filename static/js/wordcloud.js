@@ -70,7 +70,7 @@ function dataChanged(stock_name) {
     // ]
 
     // set the dimensions and margins of the graphic
-    var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+    var margin = { top: 20, right: 10, bottom: 10, left: 10 },
       width = 450 - margin.left - margin.right,
       height = 450 - margin.top - margin.bottom;
 
@@ -78,8 +78,6 @@ function dataChanged(stock_name) {
     var svg = d3.select("#wordcloud").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
-      // .attr("viewBox", [0, 0, (width + margin.right + margin.left),
-      // (height + margin.top + margin.bottom)].join(' '))
       .append("g")
       .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")")
