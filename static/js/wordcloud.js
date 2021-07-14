@@ -70,7 +70,7 @@ function dataChanged(stock_name) {
     // ]
 
     // set the dimensions and margins of the graphic
-    var margin = { top: -10, right: -10, bottom: 10, left: 10 },
+    var margin = { top: 10, right: 10, bottom: 10, left: 10 },
       width = 450 - margin.left - margin.right,
       height = 450 - margin.top - margin.bottom;
 
@@ -88,7 +88,7 @@ function dataChanged(stock_name) {
     // // Constructs a new cloud layout instance. It runs an algorithm to find the position of words that suits requirements
     // // Wordcloud features that are different from one word to the other must be here
     var layout = d3.layout.cloud()
-      .size([width, height])
+      .size([width- margin.right, height- margin.bottom])
       .words(filteredData.map(function (d) {
         return {
           text: d.Words,
