@@ -93,6 +93,7 @@ function dataChanged(stock_name) {
         return {
           text: d.Words,
           size: wordSize(d.Counts),
+          wordCount: d.Counts,
           pos: d.POS,
           links: d.links,
           wordScore: d.WordScore
@@ -144,7 +145,7 @@ function dataChanged(stock_name) {
           d3.select("#wordcloud_news").html(
             `Word: <strong>${d.text}</strong> <br>
             
-            Occurrences: ${d.size}<br>
+            Occurrences: ${d.wordCount}<br>
             Positive vs. Total Mentions: ${(d.wordScore * 100).toFixed(0)}%<br>
             Headlines: <br>`)
           
