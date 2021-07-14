@@ -86,7 +86,7 @@ function dataChanged(stock_name) {
     // // Constructs a new cloud layout instance. It runs an algorithm to find the position of words that suits requirements
     // // Wordcloud features that are different from one word to the other must be here
     var layout = d3.layout.cloud()
-      .size([width- margin.right, height- margin.bottom])
+      .size([width- margin.right, height])
       .words(filteredData.map(function (d) {
         return {
           text: d.Words,
