@@ -18,7 +18,7 @@ function getGreenToRed(percent) {
 function dataChanged(stock_name) {
   // Display text to let the user know dataset is being generated.
   d3.select("#wordcloud_sentiment").html(
-    `Processing...`)
+    `Collecting News from the Web...`)
   //clear the visualization and the list if existing
   d3.select("#wordcloud").html("")
   d3.select("#wordcloud_news").html("")
